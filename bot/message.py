@@ -1,0 +1,43 @@
+import re
+
+
+class IRCMessageParser:
+    def __init__(self):
+        self.context = b''
+
+    def parse(self):
+        message = IRCMessage(self.context)
+        self.context = IRCMessage.prog.sub(b'', self.context, 1)
+        return message
+
+    def parsable(self):
+        return IRCMessage.valid(self.context)
+
+    def append(self, data):
+        self.context += data
+
+
+class IRCMessage:
+    prog = re.compile(b'^(?::(([^@!\ ]*)(?:(?:!([^@]*))?@([^\ ]*))?)\ )?([^\ ]+)((?:\ [^:\ ][^\ ]*){0,14})(?:\ :?(.*))?\r\n')
+
+    @classmethod
+    def valid(cls, data):
+        return cls.prog.match(data) is not None
+
+    def __init__(self, data):
+        parse = self.prog.match(data)
+        if parse:
+            self.prefix = parse.group(1).decode() if parse.group(1) else None
+            self.nick = parse.group(2).decode() if parse.group(2) else None
+            self.username = parse.group(3).decode() if parse.group(3) else None
+            self.hostname = parse.group(4).decode() if parse.group(4) else None
+            self.command = parse.group(5).decode() if parse.group(5) else None
+            self.params = parse.group(6).split(b' ')[1:]
+            if parse.group(7):
+                self.params.append(parse.group(7))
+            for i in range(len(self.params)):
+                self.params[i] = self.params[i].decode()
+
+    def __repr__(self):
+        return '<IRCMessage : {} {!r} {!r} {!r} {!r} {}>'.format(
+                self.command, self.prefix, self.nick, self.username, self.hostname, self.params)
