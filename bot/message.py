@@ -2,8 +2,8 @@ import re
 
 
 class IRCMessageParser:
-    def __init__(self):
-        self.context = b''
+    def __init__(self, context=b''):
+        self.context = context
 
     def parse(self):
         message = IRCMessage(self.context)
