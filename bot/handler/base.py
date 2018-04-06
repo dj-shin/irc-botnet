@@ -7,6 +7,8 @@ class BaseMessageHandler:
     def handle(self, message):
         if message.command == 'PING':
             self.transport.write('PONG :pingis\n'.encode())
+        elif message.command == 'INVITE':
+            self.join_channel(message.channel)
 
     def send_message(self, channel, message):
         self.transport.write('PRIVMSG {channel} :{message}\n'.format(
