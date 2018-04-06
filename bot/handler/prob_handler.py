@@ -10,8 +10,8 @@ class ProbHandler(BaseMessageHandler):
     def handle(self, message):
         super(ProbHandler, self).handle(message)
         if message.command == 'PRIVMSG':
-            channel = message.params[0]
-            content = message.params[1]
+            channel = message.channel
+            content = message.text
             if content.find('!확률 ') == 0:
                 content = content[len('!확률 '):]
                 if not content:

@@ -38,6 +38,24 @@ class IRCMessage:
             for i in range(len(self.params)):
                 self.params[i] = self.params[i].decode()
 
+    @property
+    def channel(self):
+        if self.command in ['JOIN', 'MODE', 'PRIVMSG', 'KICK']:
+            return self.params[0]
+        elif self.command in ['INVITE']:
+            return self.params[1]
+        else:
+            return None
+
+    @property
+    def text(self):
+        if self.command in ['PRIVMSG']:
+            return self.params[1]
+        elif self.command in ['KICK']:
+            return self.params[2]
+        else:
+            return None
+
     def __repr__(self):
         return '<IRCMessage : {} {!r} {!r} {!r} {!r} {}>'.format(
                 self.command, self.prefix, self.nick, self.username, self.hostname, self.params)

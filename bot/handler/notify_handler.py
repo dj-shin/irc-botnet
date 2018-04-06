@@ -11,8 +11,8 @@ class NotifyHandler(BaseMessageHandler):
     def handle(self, message):
         super(NotifyHandler, self).handle(message)
         if message.command == 'PRIVMSG':
-            channel = message.params[0]
-            content = message.params[1]
+            channel = message.channel
+            content = message.text
             nick = message.nick
             if content.find('일 추가:') == 0:
                 content = content[len('일 추가:'):].strip()
