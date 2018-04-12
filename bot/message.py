@@ -27,16 +27,16 @@ class IRCMessage:
     def __init__(self, data):
         parse = self.prog.match(data)
         if parse:
-            self.prefix = parse.group(1).decode() if parse.group(1) else None
-            self.nick = parse.group(2).decode() if parse.group(2) else None
-            self.username = parse.group(3).decode() if parse.group(3) else None
-            self.hostname = parse.group(4).decode() if parse.group(4) else None
-            self.command = parse.group(5).decode() if parse.group(5) else None
+            self.prefix = parse.group(1).decode('utf-8', 'ignore') if parse.group(1) else None
+            self.nick = parse.group(2).decode('utf-8', 'ignore') if parse.group(2) else None
+            self.username = parse.group(3).decode('utf-8', 'ignore') if parse.group(3) else None
+            self.hostname = parse.group(4).decode('utf-8', 'ignore') if parse.group(4) else None
+            self.command = parse.group(5).decode('utf-8', 'ignore') if parse.group(5) else None
             self.params = parse.group(6).split(b' ')[1:]
             if parse.group(7):
                 self.params.append(parse.group(7))
             for i in range(len(self.params)):
-                self.params[i] = self.params[i].decode()
+                self.params[i] = self.params[i].decode('utf-8', 'ignore')
 
     @property
     def channel(self):
