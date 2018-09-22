@@ -26,3 +26,11 @@ class BaseMessageHandler:
         self.transport.write('PART {channel}\n'.format(
             channel=channel
         ).encode())
+
+    def get_users(self, channel):
+        self.transport.write('NAMES {channel}\n'.format(
+            channel=channel
+        ).encode())
+
+    def raw_send(self, message):
+        self.transport.write('{message}\n'.format(message=message).encode())

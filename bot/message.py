@@ -44,6 +44,8 @@ class IRCMessage:
             return self.params[0]
         elif self.command in ['INVITE']:
             return self.params[1]
+        elif self.command in ['353']:
+            return self.params[2]
         else:
             return None
 
@@ -53,6 +55,8 @@ class IRCMessage:
             return self.params[1]
         elif self.command in ['KICK']:
             return self.params[2]
+        elif self.command in ['353']:
+            return self.params[3]
         else:
             return None
 

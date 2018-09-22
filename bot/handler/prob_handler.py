@@ -9,6 +9,7 @@ class ProbHandler(BaseMessageHandler):
 
     def handle(self, message):
         super(ProbHandler, self).handle(message)
+        print(message)
         if message.command == 'PRIVMSG':
             channel = message.channel
             content = message.text
